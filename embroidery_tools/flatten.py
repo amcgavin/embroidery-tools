@@ -44,7 +44,7 @@ def whitelist_attributes(attrs):
 
 
 def main():
-    svg_file = "../comtam.svg"
+    svg_file = "../input.svg"
     paths, all_attributes, svg_attributes = svgpathtools.svg2paths2(svg_file)
 
     pc_paths = []
@@ -58,7 +58,7 @@ def main():
         else:
             pc_paths.append(svg_path_to_pyclipper_path(path))
 
-    paths = {i: [p] for i, p in enumerate(pc_paths)}
+    paths = {i: [p] for i, p in enumerate(reversed(pc_paths))}
     for p1, p2 in itertools.combinations(range(len(pc_paths)), 2):
         if not paths[p1] or not paths[p2]:
             continue
@@ -76,7 +76,7 @@ def main():
     result_paths = []
     new_attributes = []
 
-    for path_list, attributes in zip(paths.values(), all_attributes):
+    for path_list, attributes in zip(paths.values(), reversed(all_attributes)):
         for path in path_list:
             p = pyclipper_path_to_svg_path(path)
             result_paths.append(p)
